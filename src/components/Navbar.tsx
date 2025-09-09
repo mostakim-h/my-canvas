@@ -48,6 +48,8 @@ export default function Navbar(
     const text = await f.text();
     try {
       const data = JSON.parse(text) as BaseShape[];
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       setShapes(data);
     } catch (err) {
       alert("Invalid JSON");

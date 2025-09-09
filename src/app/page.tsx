@@ -192,6 +192,8 @@ export default function Home() {
     if (!canvas) return;
 
     function toCanvasCoords(e: PointerEvent) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       const rect = canvas.getBoundingClientRect();
       return {x: e.clientX - rect.left, y: e.clientY - rect.top};
     }
@@ -355,6 +357,8 @@ export default function Home() {
     if (!canvas) return;
 
     function toCanvasCoords(e: MouseEvent) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       const rect = canvas.getBoundingClientRect();
       return {x: e.clientX - rect.left, y: e.clientY - rect.top};
     }
