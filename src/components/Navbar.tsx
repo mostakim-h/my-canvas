@@ -79,22 +79,27 @@ export default function Navbar(
   }
 
   return (
-    <div className="flex gap-4 items-center justify-center">
-      <Button onClick={exportJSON} className={'cursor-pointer'}>
-        <FileDown/>
-      </Button>
-      <Button onClick={() => importJSON()} className={'cursor-pointer'}>
-        <FileUp/>
-      </Button>
-      <Button onClick={bringToFront} className={'cursor-pointer'}>
-        <BringToFront/>
-      </Button>
-      <Button onClick={sendToBack} className={'cursor-pointer'}>
-        <SendToBack/>
-      </Button>
-      <Button onClick={deleteSelected} className={'cursor-pointer'}>
-        <Trash2 className="text-destructive"/>
-      </Button>
+    <div className={'gap-5 grid grid-cols-[calc(var(--spacing)*55)_1fr_1fr]'}>
+      <h2 className={'text-white text-2xl font-bold'}>My Canvas</h2>
+      <div className="flex gap-4 items-center">
+        <Button onClick={bringToFront} className={'cursor-pointer'}>
+          <BringToFront/>
+        </Button>
+        <Button onClick={sendToBack} className={'cursor-pointer'}>
+          <SendToBack/>
+        </Button>
+        <Button onClick={deleteSelected} className={'cursor-pointer'}>
+          <Trash2 className="text-destructive"/>
+        </Button>
+      </div>
+      <div className="flex gap-4 items-center justify-end">
+        <Button onClick={exportJSON} className={'cursor-pointer'}>
+          <FileDown/>
+        </Button>
+        <Button onClick={() => importJSON()} className={'cursor-pointer'}>
+          <FileUp/>
+        </Button>
+      </div>
     </div>
   )
 }
