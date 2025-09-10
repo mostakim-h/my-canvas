@@ -1,24 +1,22 @@
 import {Button} from "@/components/ui/button";
-import {BringToFront, Delete, FileDown, FileUp, MousePointer2, SendToBack} from "lucide-react";
+import {BringToFront, FileDown, FileUp, SendToBack, Trash2} from "lucide-react";
 import React from "react";
-import {BaseShape, ShapeType} from "@/app/page";
+import {BaseShape} from "@/types/types";
+
+type Props = {
+  shapes: BaseShape[],
+  setShapes: (shapes: (p: BaseShape[]) => (BaseShape[])) => void,
+  selectedId: string | null,
+  setSelectedId: (id: string | null) => void
+}
 
 export default function Navbar(
   {
-    tool,
-    setTool,
     shapes,
     setShapes,
     selectedId,
     setSelectedId
-  }: {
-    tool: string,
-    setTool: (tool: ShapeType | "select") => void,
-    shapes: BaseShape[],
-    setShapes: (shapes: (p: BaseShape[]) => (BaseShape[])) => void,
-    selectedId: string | null,
-    setSelectedId: (id: string | null) => void
-  }) {
+  }: Props) {
 
   function exportJSON() {
     const data = JSON.stringify(shapes, null, 2);
@@ -81,27 +79,21 @@ export default function Navbar(
   }
 
   return (
-    <div className="flex gap-4 items-center">
-      <Button
-        onClick={() => setTool("select")}
-        className={`${tool === "select" ? "border-blue-500 text-blue-600" : ""} cursor-pointer`}
-      >
-        <MousePointer2 size={16} className="inline-block"/>
+    <div className="flex gap-4 items-center justify-center">
+      <Button onClick={exportJSON} className={'cursor-pointer'}>
+        <FileDown/>
       </Button>
-      <Button onClick={exportJSON}>
-        <FileDown size={16} className="inline-block"/>
+      <Button onClick={() => importJSON()} className={'cursor-pointer'}>
+        <FileUp/>
       </Button>
-      <Button onClick={() => importJSON()}>
-        <FileUp size={16} className="inline-block"/>
+      <Button onClick={bringToFront} className={'cursor-pointer'}>
+        <BringToFront/>
       </Button>
-      <Button onClick={bringToFront}>
-        <BringToFront size={16} className="inline-block"/>
+      <Button onClick={sendToBack} className={'cursor-pointer'}>
+        <SendToBack/>
       </Button>
-      <Button onClick={sendToBack}>
-        <SendToBack size={16} className="inline-block"/>
-      </Button>
-      <Button onClick={deleteSelected}>
-        <Delete size={16} className="inline-block"/>
+      <Button onClick={deleteSelected} className={'cursor-pointer'}>
+        <Trash2 className="text-destructive"/>
       </Button>
     </div>
   )
