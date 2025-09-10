@@ -1,5 +1,6 @@
 Visit https://my-canvas-ten.vercel.app/
 
-<img width="1914" height="905" alt="image" src="https://github.com/user-attachments/assets/b9cf2036-cd22-47c3-8bb6-f4486ce2bf0e" />
+<img width="1913" height="907" alt="image" src="https://github.com/user-attachments/assets/32560ae1-4e9c-4979-a2b7-eac8ed274acd" />
+
 
 
