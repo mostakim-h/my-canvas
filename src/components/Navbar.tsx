@@ -49,6 +49,7 @@ export default function Navbar(
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       setShapes(data);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       alert("Invalid JSON");
     }

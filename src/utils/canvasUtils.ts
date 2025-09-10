@@ -98,7 +98,7 @@ export function createShape(
 
   const baseShape: BaseShape = {
     id: shapeId,
-    type: tool as any,
+    type: tool as never,
     x: startPoint.x,
     y: startPoint.y,
     w: 120,
