@@ -68,19 +68,20 @@ const TOOLS: ToolConfig[] = [
 ];
 
 const COLOR_PRESETS = [
-  "#ff6b6b",
-  "#4ecdc4",
-  "#45b7d1",
-  "#96ceb4",
-  "#ffeaa7",
-  "#dda0dd",
-  "#98d8c8",
-  "#f7dc6f",
-  "#bb8fce",
-  "#85c1e9",
-  "#f8c471",
-  "#82e0aa",
+  "#FF6B6B",
+  "#6C5CE7",
+  "#00B894",
+  "#FDCB6E",
+  "#74B9FF",
+  "#E17055",
+  "#A29BFE",
+  "#55EFC4",
+  "#FAB1A0",
+  "#81ECEC",
+  "#FFEAA7",
+  "#D63031"
 ];
+
 
 export default function Sidebar({tool, setTool, color, setColor}: SidebarProps) {
   const renderToolSection = (category: string, tools: ToolConfig[]) => {
