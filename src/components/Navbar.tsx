@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button";
-import {BringToFront, FileDown, FileUp, SendToBack, Trash2} from "lucide-react";
+import {BringToFront, FileDown, FileUp, Redo, SendToBack, Trash2, Undo} from "lucide-react";
 import React from "react";
 import {BaseShape} from "@/types/types";
 
@@ -17,6 +17,8 @@ export default function Navbar(
     selectedId,
     setSelectedId
   }: Props) {
+
+  const [stateRedo, setStateRedo] = React.useState<BaseShape[][]>([]);
 
   function exportJSON() {
     const data = JSON.stringify(shapes, null, 2);
@@ -79,6 +81,22 @@ export default function Navbar(
     });
   }
 
+  function undo() {
+    const previousState = shapes[shapes.length - 1];
+    if (!previousState) return;
+    setStateRedo((p) => [...p, previousState]);
+    setShapes((p) => {
+      return p.slice(0, p.length - 1);
+    });
+  }
+
+  function redo() {
+    const nextState = stateRedo[stateRedo.length - 1];
+    if (!nextState) return;
+    setShapes((p) => [...p, nextState]);
+    setStateRedo((p) => p.slice(0, p.length - 1));
+  }
+
   return (
     <div className={'gap-5 grid grid-cols-[calc(var(--spacing)*55)_1fr_1fr]'}>
       <h2 className={'text-white text-2xl font-bold'}>My Canvas</h2>
@@ -91,6 +109,20 @@ export default function Navbar(
         </Button>
         <Button onClick={deleteSelected} className={'cursor-pointer'}>
           <Trash2 className="text-destructive"/>
+        </Button>
+        <Button
+          onClick={undo}
+          className={'cursor-pointer'}
+          disabled={shapes.length === 0}
+        >
+          <Undo/>
+        </Button>
+        <Button
+          onClick={redo}
+          className={'cursor-pointer'}
+          disabled={stateRedo.length === 0}
+        >
+          <Redo/>
         </Button>
       </div>
       <div className="flex gap-4 items-center justify-end">
