@@ -16,7 +16,6 @@ export function useCanvas() {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const rendererRef = useRef<ShapeRenderer | null>(null);
 
-  // Canvas state
   const [tool, setTool] = useState<ShapeType | "select">("select");
   const [shapes, setShapes] = useState<BaseShape[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -24,7 +23,6 @@ export function useCanvas() {
   const [isDrawing, setIsDrawing] = useState(false);
   const [startPos, setStartPos] = useState<Point | null>(null);
 
-  // Pointer state for interactions
   const pointerRef = useRef<PointerState>({
     dragging: false,
     resizing: false,
@@ -63,15 +61,12 @@ export function useCanvas() {
     const renderer = rendererRef.current;
     if (!canvas || !renderer) return;
 
-    // Clear and draw background
     renderer.clear(canvas.width, canvas.height);
     renderer.drawBackground(canvas.width, canvas.height);
 
-    // Draw all shapes
     shapes.forEach((shape) => {
       renderer.drawShape(shape);
 
-      // Draw selection if this shape is selected
       if (shape.id === selectedId) {
         const handles = getShapeHandles(shape);
         renderer.drawSelection(shape, handles);
@@ -94,12 +89,10 @@ export function useCanvas() {
         setSelectedId(hitShape.id);
         setColor(hitShape.fill);
 
-        // Check if clicking on a resize handle
         const handles = getShapeHandles(hitShape);
         const hitHandle = hitTestHandle(point.x, point.y, handles);
 
         if (hitHandle && hitShape.type !== "pen" && hitShape.type !== "brush") {
-          // Start resizing
           pointerRef.current = {
             dragging: false,
             resizing: true,
@@ -109,7 +102,6 @@ export function useCanvas() {
             initial: { ...hitShape },
           };
         } else {
-          // Start dragging
           pointerRef.current = {
             dragging: true,
             resizing: false,
@@ -123,7 +115,6 @@ export function useCanvas() {
         setSelectedId(null);
       }
     } else {
-      // Create new shape
       setIsDrawing(true);
       setStartPos(point);
 
@@ -131,7 +122,6 @@ export function useCanvas() {
       setShapes(prev => [...prev, newShape]);
       setSelectedId(newShape.id);
 
-      // For drawing tools (pen, brush), start collecting points
       if (tool === "pen" || tool === "brush") {
         pointerRef.current = {
           dragging: true,
@@ -142,7 +132,6 @@ export function useCanvas() {
           initial: newShape,
         };
       } else {
-        // For geometric shapes, prepare for drag-resize
         pointerRef.current = {
           dragging: true,
           resizing: false,
@@ -168,16 +157,13 @@ export function useCanvas() {
       setShapes(prev => prev.map(shape => {
         if (shape.id !== selectedId) return shape;
 
-        // Handle drawing new shape
         if (isDrawing && startPos && shape.id === pointerRef.current.initial?.id) {
           if (ShapeFactory.isDrawingTool(shape.type)) {
-            // Add point to path
             return {
               ...shape,
               points: [...(shape.points || []), point],
             };
           } else {
-            // Update geometric shape size
             const minX = Math.min(startPos.x, point.x);
             const minY = Math.min(startPos.y, point.y);
             const width = Math.abs(point.x - startPos.x) || 40;
@@ -187,7 +173,6 @@ export function useCanvas() {
           }
         }
 
-        // Handle regular dragging
         if (!pointerRef.current.resizing) {
           return {
             ...shape,
@@ -200,7 +185,6 @@ export function useCanvas() {
       }));
     }
 
-    // Handle resizing
     if (pointerRef.current.resizing && selectedId && pointerRef.current.handle && pointerRef.current.initial) {
       setShapes(prev => prev.map(shape => {
         if (shape.id !== selectedId) return shape;
@@ -246,14 +230,12 @@ export function useCanvas() {
     }
   }, [shapes]);
 
-  // Set up canvas sizing
   useEffect(() => {
     fitCanvas();
     window.addEventListener("resize", fitCanvas);
     return () => window.removeEventListener("resize", fitCanvas);
   }, [fitCanvas]);
 
-  // Set up event listeners
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -271,7 +253,6 @@ export function useCanvas() {
     };
   }, [handlePointerDown, handlePointerMove, handlePointerUp, handleDoubleClick]);
 
-  // Update color for selected shape
   useEffect(() => {
     if (!selectedId) return;
 
@@ -280,7 +261,6 @@ export function useCanvas() {
     ));
   }, [color, selectedId]);
 
-  // Redraw when shapes or selection changes
   useEffect(() => {
     draw();
   }, [draw]);

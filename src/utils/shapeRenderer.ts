@@ -16,15 +16,12 @@ export class ShapeRenderer {
   drawBackground(width: number, height: number, gridSize: number = 24): void {
     this.ctx.save();
 
-    // Dark background
     this.ctx.fillStyle = "#0f172a";
     this.ctx.fillRect(0, 0, width, height);
 
-    // Grid lines
     this.ctx.strokeStyle = "rgba(255,255,255,0.03)";
     this.ctx.lineWidth = 1;
 
-    // Vertical lines
     for (let x = 0; x < width; x += gridSize) {
       this.ctx.beginPath();
       this.ctx.moveTo(x + 0.5, 0);
@@ -32,7 +29,6 @@ export class ShapeRenderer {
       this.ctx.stroke();
     }
 
-    // Horizontal lines
     for (let y = 0; y < height; y += gridSize) {
       this.ctx.beginPath();
       this.ctx.moveTo(0, y + 0.5);
@@ -136,11 +132,8 @@ export class ShapeRenderer {
     const { x, y, w, h } = shape;
 
     this.ctx.beginPath();
-    // Top point
     this.ctx.moveTo(x + w / 2, y);
-    // Bottom left
     this.ctx.lineTo(x, y + h);
-    // Bottom right
     this.ctx.lineTo(x + w, y + h);
     this.ctx.closePath();
 
@@ -183,7 +176,6 @@ export class ShapeRenderer {
     this.ctx.beginPath();
     this.ctx.moveTo(shape.points[0].x, shape.points[0].y);
 
-    // Use quadratic curves for smoother brush strokes
     for (let i = 1; i < shape.points.length - 1; i++) {
       const currentPoint = shape.points[i];
       const nextPoint = shape.points[i + 1];
@@ -193,7 +185,6 @@ export class ShapeRenderer {
       this.ctx.quadraticCurveTo(currentPoint.x, currentPoint.y, midX, midY);
     }
 
-    // Draw to the last point
     const lastPoint = shape.points[shape.points.length - 1];
     this.ctx.lineTo(lastPoint.x, lastPoint.y);
 
@@ -210,7 +201,6 @@ export class ShapeRenderer {
   drawSelection(shape: BaseShape, handles: Handle[]): void {
     this.ctx.save();
 
-    // Selection outline
     this.ctx.beginPath();
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = "#60a5fa";
@@ -223,7 +213,6 @@ export class ShapeRenderer {
     );
     this.ctx.setLineDash([]);
 
-    // Resize handles (only for non-path shapes)
     if (shape.type !== "pen" && shape.type !== "brush") {
       handles.forEach((handle) => {
         this.ctx.beginPath();

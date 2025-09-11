@@ -18,7 +18,6 @@ export function getCanvasCoordinates(
  * Test if a point hits a shape
  */
 export function hitTestShape(x: number, y: number, shapes: BaseShape[]): BaseShape | null {
-  // Test from top to bottom (last drawn first)
   for (let i = shapes.length - 1; i >= 0; i--) {
     const shape = shapes[i];
 
@@ -38,7 +37,6 @@ export function hitTestShape(x: number, y: number, shapes: BaseShape[]): BaseSha
         return shape;
       }
     } else if (shape.type === "pen" || shape.type === "brush") {
-      // For pen/brush, check if point is near any of the path points
       if (shape.points) {
         const threshold = shape.strokeWidth || 5;
         for (const point of shape.points) {
@@ -93,7 +91,6 @@ export function createShape(
   color: string,
   id?: string
 ): BaseShape {
-  // For backward compatibility, but recommend using ShapeFactory
   const shapeId = id || Math.random().toString(36).slice(2, 9);
 
   const baseShape: BaseShape = {
