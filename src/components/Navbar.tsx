@@ -18,7 +18,7 @@ export default function Navbar(
     setSelectedId
   }: Props) {
 
-  const [stateRedo, setStateRedo] = React.useState<BaseShape[][]>([]);
+  const [stateRedo, setStateRedo] = React.useState<BaseShape[]>([]);
 
   function exportJSON() {
     const data = JSON.stringify(shapes, null, 2);
